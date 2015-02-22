@@ -2,34 +2,45 @@
 ## functions do
 
 ## Write a short comment describing this function
+##
+## Returns a list of functions. Two pairs of get/set functions
+##
+## set/setsolve: stores the matrix/inverse's matrix in parent environment
+## get/getsolve: retrieves the matrix/inverse's matrix
+##
 
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
+  s <- NULL
   set <- function(y) {
     x <<- y
-    m <<- NULL
+    s <<- NULL
   }
   get <- function() x
-  setmean <- function(mean) m <<- mean
-  getmean <- function() m
+  setsolve <- function(solve) s <<- solve
+  getsolve <- function() s
   list(set = set, get = get,
-       setmean = setmean,
-       getmean = getmean)
+       setsolve = setsolve,
+       getsolve = getsolve)
 }
 
 
 ## Write a short comment describing this function
+##
+## Returns an inverse's matrix, which value can be cached
+##
+## It calculates the inverses' matrix if there is no previous cached value (not null)
+##
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  m <- x$getmean()
-  if(!is.null(m)) {
+  s <- x$getsolve()
+  if(!is.null(s)) {
     message("getting cached data")
-    return(m)
+    return(s)
   }
   data <- x$get()
-  m <- solve(data, ...)
-  x$setmean(m)
-  m
+  s <- solve(data, ...)
+  x$setsolve(s)
+  s
   
 }
